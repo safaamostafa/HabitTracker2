@@ -1,4 +1,5 @@
 package com.example.safsaf.habittracker;
+
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -11,9 +12,15 @@ import android.widget.TextView;
 import com.example.safsaf.habittracker.data.HabitContract.habitEntry;
 import com.example.safsaf.habittracker.data.HabitDbHelper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
-    /** Database helper that will provide us access to the database */
+    /**
+     * Database helper that will provide us access to the database
+     */
     private HabitDbHelper mDbHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         // and pass the context, which is the current activity.
         mDbHelper = new HabitDbHelper(this);
     }
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -39,15 +47,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     *      * Temporary helper method to display information in the onscreen TextView about the state of
-     *      * the habits database.
-     *
+     * * Temporary helper method to display information in the onscreen TextView about the state of
+     * * the habits database.
      */
     private void displayDatabaseInfo() {
 
 
         // Create and/or open a database to read from it
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
+
 
         // Define a projection that specifies which columns from the database
         // you will actually use after this query.
@@ -59,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Perform a query on the habits table
         Cursor cursor = db.query(
-               habitEntry.TABLE_NAME,   // The table to query
+                habitEntry.TABLE_NAME,   // The table to query
                 projection,            // The columns to return
                 null,                  // The columns for the WHERE clause
                 null,                  // The values for the WHERE clause
@@ -69,6 +77,8 @@ public class MainActivity extends AppCompatActivity {
         TextView displayView = (TextView) findViewById(R.id.text_view_habit);
 
         try {
+
+
             // Create a header in the Text View that looks like this:
             //
             // The habits table contains <number of rows in Cursor> pets.
@@ -99,7 +109,16 @@ public class MainActivity extends AppCompatActivity {
         } finally {
             // Always close the cursor when you're done reading from it. This releases all its
             // resources and makes it invalid.
+            List itemIds = new ArrayList<>();
+            while (cursor.moveToNext()) {
+                long itemId = cursor.getLong(
+                        cursor.getColumnIndexOrThrow(habitEntry._ID));
+                itemIds.add(itemId);
+            }
+
             cursor.close();
         }
     }
+
+
 }
