@@ -37,12 +37,16 @@ public class MainActivity extends AppCompatActivity {
         // To access our database, we instantiate our subclass of SQLiteOpenHelper
         // and pass the context, which is the current activity.
         mDbHelper = new HabitDbHelper(this);
+        // Gets the data repository in write mode
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+
+
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        displayDatabaseInfo();
+        readDatabaseInfo();
 
     }
 
@@ -50,8 +54,9 @@ public class MainActivity extends AppCompatActivity {
      * * Temporary helper method to display information in the onscreen TextView about the state of
      * * the habits database.
      */
-    private void displayDatabaseInfo() {
 
+
+    public Cursor readDatabaseInfo() {
 
         // Create and/or open a database to read from it
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
@@ -117,6 +122,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             cursor.close();
+            return cursor;
         }
     }
 
