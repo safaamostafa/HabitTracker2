@@ -110,6 +110,8 @@ public class MainActivity extends AppCompatActivity {
                 displayView.append(("\n" + currentID + " - " +
                         currentName + " - " +
                         currentTime));
+                return cursor;
+
             }
         } finally {
             // Always close the cursor when you're done reading from it. This releases all its
@@ -119,10 +121,11 @@ public class MainActivity extends AppCompatActivity {
                 long itemId = cursor.getLong(
                         cursor.getColumnIndexOrThrow(habitEntry._ID));
                 itemIds.add(itemId);
+                cursor.close();
             }
 
-            cursor.close();
             return cursor;
+
         }
     }
 

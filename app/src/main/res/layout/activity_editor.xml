@@ -46,7 +46,7 @@
             android:id="@+id/edit_habit_times"
             style="@style/EditorFieldStyle"
             android:hint="@string/hint_habit_times"
-            android:inputType="textCapWords" />
+            android:inputType="number" />
 
 
     </LinearLayout>
